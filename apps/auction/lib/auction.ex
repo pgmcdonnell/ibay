@@ -2,28 +2,25 @@ defmodule Auction do
   @moduledoc """
   Documentation for Auction.
   """
-  alias Auction.{FakeRepo, Item}
+  alias Auction.Item
 
-  @repo FakeRepo
+  @repo Auction.Repo
 
-  @doc """
-  Lists items in the auction.
-
-  ## Examples
-
-      iex> Auction.list_items()
-
-
-  """
-  def list_items do
-    @repo.all(Item)
-  end
-
+  def delete_item(%Auction.Item{} = item), do: @repo.delete(item)
   def get_item(id) do
     @repo.get!(Item, id)
   end
-
   def get_item_by(attrs) do
     @repo.get_by(Item, attrs)
+  end
+
+  def insert_item(attrs) do
+    Auction.Item
+    |> struct(attrs)
+    |> @repo.insert()
+  end
+
+  def list_items do
+    @repo.all(Item)
   end
 end
