@@ -23,4 +23,10 @@ defmodule Auction do
   def list_items do
     @repo.all(Item)
   end
+
+  def update_item(%Auction.Item{} = item, updates) do
+    item
+    |> Item.changeset(updates)
+    |> @repo.update()
+  end
 end
