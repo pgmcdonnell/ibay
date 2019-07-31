@@ -29,4 +29,6 @@ defmodule Auction do
     |> Item.changeset(updates)
     |> @repo.update()
   end
+
+  def new_item, do: Item.changeset(%Item{})
 end
