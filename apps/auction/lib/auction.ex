@@ -14,12 +14,6 @@ defmodule Auction do
     @repo.get_by(Item, attrs)
   end
 
-  def insert_item(attrs) do
-    Auction.Item
-    |> struct(attrs)
-    |> @repo.insert()
-  end
-
   def list_items do
     @repo.all(Item)
   end
@@ -31,4 +25,16 @@ defmodule Auction do
   end
 
   def new_item, do: Item.changeset(%Item{})
+
+  def insert_item(attrs) do
+    %Item{}
+    |> Item.changeset(attrs)
+    |> @repo.insert()
+  end
+
+  def edit_item(id) do
+    id
+    |> get_item()
+    |> Item.changeset()
+  end
 end
