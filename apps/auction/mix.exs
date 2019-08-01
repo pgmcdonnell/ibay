@@ -27,7 +27,9 @@ defmodule Auction.MixProject do
   defp deps do
     [
       {:ecto_sql, "~> 3.1.6"},
-      {:postgrex, "~> 0.15.0"}
+      {:postgrex, "~> 0.15.0"},
+      {:comeonin, "~> 5.1"},
+      {:pbkdf2_elixir, "~> 1.0"}
     ]
   end
 end
