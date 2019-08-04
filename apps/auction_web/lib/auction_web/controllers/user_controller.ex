@@ -1,5 +1,6 @@
 defmodule AuctionWeb.UserController do
   use AuctionWeb, :controller
+  plug :prevent_unauthorized_access when action in [:show]
 
   def show(conn, %{"id" => id}) do
     user = Auction.get_user(id)
@@ -17,6 +18,24 @@ defmodule AuctionWeb.UserController do
       {:error, user} ->
         IO.puts user.errors
         render(conn, "new.html", user: user)
+    end
+  end
+
+  defp prevent_unauthorized_access(conn, _opts) do
+    current_user = Map.get(conn.assigns, :current_user)
+
+    requested_user_id =
+      conn.params
+      |> Map.get("id")
+      |> String.to_integer()
+
+    if current_user == nil || current_user.id != requested_user_id do
+      conn
+      |> put_flash(:error, "Access to that file is classified!")
+      |> redirect(to: Routes.item_path(conn, :index))
+      |> halt()
+    else
+      conn
     end
   end
 end
